@@ -11,10 +11,10 @@ jobs:
     
     steps:
     - name: Checkout Repository
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
       
     - name: Setup MSBuild
-      uses: microsoft/setup-msbuild@v1.1
+      uses: microsoft/setup-msbuild@v2
       
     - name: Setup MSVC
       uses: ilammy/msvc-dev-cmd@v1
@@ -23,7 +23,7 @@ jobs:
         
     - name: Cache Plugin-SDK
       id: cache-plugin-sdk
-      uses: actions/cache@v3
+      uses: actions/cache@v4
       with:
         path: |
           build/_deps
@@ -60,7 +60,7 @@ jobs:
       shell: pwsh
       
     - name: Upload Artifact
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: GTAReplayMod-asi
         path: build/Release/GTAReplayMod.asi
@@ -76,7 +76,7 @@ jobs:
       shell: pwsh
       
     - name: Upload Release Package
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: GTAReplayMod-Complete-Package
         path: release/
