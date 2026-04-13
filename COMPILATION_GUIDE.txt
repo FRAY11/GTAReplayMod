@@ -1,0 +1,112 @@
+========================================
+GTA SA REPLAY MOD - COMPILATION GUIDE
+Phase 1 & 2: Recording and Playback
+========================================
+
+PREREQUISITES:
+1. Visual Studio 2019 or 2022 (Community Edition is free)
+2. GTA San Andreas Plugin-SDK installed
+   Download from: https://github.com/DK22Pac/plugin-sdk
+
+STEP-BY-STEP COMPILATION:
+
+1. CREATE NEW PROJECT
+   - Open Visual Studio
+   - File → New → Project
+   - Select "Empty Project" (C++)
+   - Name it "GTAReplayMod"
+   - Click Create
+
+2. ADD FILES TO PROJECT
+   - In Solution Explorer, right-click "Source Files"
+   - Add → Existing Item
+   - Select: Plugin.cpp, DataLogger.cpp, PlaybackEngine.cpp, Logger.cpp
+   
+   - Right-click "Header Files"
+   - Add → Existing Item
+   - Select: Plugin.h, DataLogger.h, PlaybackEngine.h, Logger.h
+
+3. CONFIGURE PROJECT SETTINGS
+   - Right-click project name → Properties
+   
+   A. General Settings:
+      - Configuration: All Configurations
+      - Platform: Win32 (x86)
+      - Configuration Type: Dynamic Library (.dll)
+      - Target Extension: .asi
+   
+   B. C/C++ → General:
+      - Additional Include Directories: Add path to Plugin-SDK include folder
+        Example: C:\plugin-sdk\plugin_sa\game_sa
+   
+   C. C/C++ → Preprocessor:
+      - Add: _CRT_SECURE_NO_WARNINGS;GTASA;PLUGIN_SGV_10US
+   
+   D. C/C++ → Code Generation:
+      - Runtime Library: Multi-threaded (/MT)
+   
+   E. Linker → General:
+      - Additional Library Directories: Add path to Plugin-SDK lib folder
+        Example: C:\plugin-sdk\output\lib
+   
+   F. Linker → Input:
+      - Additional Dependencies: plugin.lib
+   
+   G. Linker → Advanced:
+      - Image Has Safe Exception Handlers: No (/SAFESEH:NO)
+
+4. BUILD THE MOD
+   - Select "Release" configuration (not Debug)
+   - Select "x86" platform
+   - Build → Build Solution (or press F7)
+   - If successful, you'll see "GTAReplayMod.asi" in the Release folder
+
+5. INSTALL THE MOD
+   - Copy GTAReplayMod.asi to your GTA San Andreas game folder
+   - Make sure you have ASI Loader installed (comes with CLEO or Silent's ASI Loader)
+
+6. TEST THE MOD
+   
+   RECORDING:
+   - Launch GTA San Andreas
+   - Load a save game
+   - Press F9 to start recording
+   - Play the game normally (drive around, spawn traffic, etc.)
+   - Press F9 again to stop recording
+   - Check your game folder for "replay_YYYYMMDD_HHMMSS.gtareplay" file
+   
+   PLAYBACK:
+   - Rename your recorded replay file to "test_replay.gtareplay"
+   - Load a save game (preferably same location as recording)
+   - Press F10 to start playback
+   - Watch as the recorded entities come to life!
+   - Press F10 again to stop playback
+   
+   - Check "GTAReplayMod.log" for debug information
+
+TROUBLESHOOTING:
+- If build fails with "cannot open plugin.h": Check Plugin-SDK include path
+- If game crashes on startup: Make sure you're building for x86 (Win32), not x64
+- If F9 doesn't work: Check GTAReplayMod.log to see if mod loaded
+- If no replay file created: Check log file for errors
+
+WHAT PHASE 1 & 2 DO:
+
+PHASE 1 - RECORDING (F9):
+- Captures all peds (people) within 150 units of player
+- Captures all vehicles within 200 units of player
+- Records position, rotation, health, speed, colors
+- Records weather, time of day, camera position
+- Saves everything to a binary .gtareplay file
+
+PHASE 2 - PLAYBACK (F10):
+- Loads .gtareplay file from disk
+- Disables game's AI (no random peds/vehicles spawning)
+- Spawns "dummy" entities from the replay
+- Forces their position/rotation every frame to match recording
+- Applies weather and time of day from recording
+- Automatically cleans up distant entities to prevent lag
+- Uses defensive memory techniques to prevent crashes
+
+NEXT PHASE:
+Once this works, we'll build Phase 3: Cinematic Camera System
