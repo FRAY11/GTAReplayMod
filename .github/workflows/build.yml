@@ -36,14 +36,6 @@ jobs:
         cmake -B build -G "Visual Studio 17 2022" -A Win32 -DCMAKE_BUILD_TYPE=Release
       shell: pwsh
       
-    - name: Build Plugin-SDK (if not cached)
-      if: steps.cache-plugin-sdk.outputs.cache-hit != 'true'
-      run: |
-        cd build/_deps/plugin-sdk-src
-        cmake -B build -A Win32 -DCMAKE_BUILD_TYPE=Release
-        cmake --build build --config Release
-        cd ../../..
-      
     - name: Build GTAReplayMod
       run: |
         cmake --build build --config Release
