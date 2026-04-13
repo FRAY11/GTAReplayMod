@@ -7,7 +7,7 @@ on:
 
 jobs:
   build:
-    runs-on: windows-latest
+    runs-on: windows-2019  # Use Windows Server 2019 with VS 2019
     
     steps:
     - name: Checkout Repository
@@ -33,7 +33,7 @@ jobs:
     
     - name: Configure CMake
       run: |
-        cmake -B build -G "Visual Studio 17 2022" -A Win32 -DCMAKE_BUILD_TYPE=Release
+        cmake -B build -G "Visual Studio 16 2019" -A Win32 -DCMAKE_BUILD_TYPE=Release
       shell: pwsh
       
     - name: Build GTAReplayMod
